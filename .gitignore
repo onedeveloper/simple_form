@@ -10,6 +10,10 @@ __pycache__/
 env/
 venv/
 ENV/
+.venv/
+
+# uv
+.uv/
 
 # Node
 node_modules/
@@ -20,3 +24,5 @@ build/
 
 # Local environment variables
 .env
+.env.*
+!.env.example

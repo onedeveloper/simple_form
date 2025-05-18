@@ -1,0 +1,14 @@
+[project]
+name = "simple-form-backend"
+version = "0.1.0"
+requires-python = "==3.11.*"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "motor",
+    "pydantic"
+]
+
+[tool.uv]
+# Use Python 3.11 environment
+python = "3.11"

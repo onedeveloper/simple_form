@@ -1,3 +1,3 @@
 # MongoDB connection utilities
-from .mongodb import get_database
+from .mongo import get_client
 
