@@ -1,21 +1,24 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-from typing import Optional
 import os
+from motor.motor_asyncio import AsyncIOMotorClient
+from urllib.parse import quote_plus
 
-MONGO_URI = os.environ.get("MONGO_URI")
+MONGO_USER = quote_plus(os.getenv("MONGO_USER"))
+MONGO_PASSWORD = quote_plus(os.getenv("MONGO_PASSWORD"))
+MONGO_HOST = os.getenv("MONGO_HOST")
+MONGO_DBNAME = os.getenv("MONGO_DBNAME")
+MONGO_APPNAME = os.getenv("MONGO_APPNAME")
 
-client: Optional[AsyncIOMotorClient] = None
+MONGO_URI = (
+    f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/"
+    f"?retryWrites=true&w=majority&appName={MONGO_APPNAME}"
+)
 
-async def connect() -> None:
-    """Initialize MongoDB connection."""
-    global client
-    client = AsyncIOMotorClient(MONGO_URI)
+client = AsyncIOMotorClient(MONGO_URI)
+db = client[MONGO_DBNAME]
 
-async def close() -> None:
-    """Close MongoDB connection."""
-    if client:
-        client.close()
-
-def get_client() -> AsyncIOMotorClient:
-    assert client is not None, "Mongo client is not initialized"
-    return client
+async def verify_mongo_connection():
+    try:
+        await client.admin.command("ping")
+        print("MongoDB connection successful.")
+    except Exception as e:
+        print("MongoDB connection failed:", e)
