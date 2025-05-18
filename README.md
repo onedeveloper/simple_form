@@ -13,10 +13,12 @@ split into two parts:
 backend/        FastAPI application
   app/
     db/         MongoDB connection utilities
-    routes/     Placeholder API routes
+    routes/     API routes
     schemas/    Pydantic models
+  tests/        Test suite skeleton
+  scripts/      Utility scripts
   main.py       Application entrypoint
-  requirements.txt
+  pyproject.toml
 
 frontend/       React application powered by Vite
   src/          React source files
@@ -29,23 +31,21 @@ frontend/       React application powered by Vite
 
 ## MongoDB Connection
 
-The backend uses **Motor** for asynchronous MongoDB access. Connection
-parameters are read from environment variables:
-
-- `MONGO_URI` – MongoDB connection string (default:
-  `mongodb://localhost:27017`)
-- `MONGO_DB_NAME` – database name (default: `simple_form`)
+The backend uses **Motor** for asynchronous MongoDB access. The connection
+string is provided via the `MONGO_URI` environment variable.
 
 ## Running the Backend
 
-1. Create a virtual environment and install dependencies:
+1. Create a local environment with [uv](https://astral.sh/docs/uv/):
 
    ```bash
    cd backend
-   python3 -m venv env
-   source env/bin/activate
-   pip install -r requirements.txt
+   uv venv
+   source .venv/bin/activate
+   uv pip install .
    ```
+
+   Create a `.env` file based on `.env.example` and provide your `MONGO_URI`.
 
 2. Start the FastAPI app:
 
@@ -69,6 +69,22 @@ parameters are read from environment variables:
    ```
 
 The frontend will be available at `http://localhost:3000`.
+
+## Deployment
+
+### Railway (Backend)
+
+1. Create a new project on [Railway](https://railway.app/).
+2. Point it at this repository and set `MONGO_URI` in the environment
+   variables settings.
+3. Railway will build the FastAPI service using the `pyproject.toml` and run
+   `uvicorn main:app`.
+
+### Vercel (Frontend)
+
+1. Import the `frontend/` directory as a new Vercel project.
+2. Use the default **Vite** build settings (`npm run build`).
+3. Deploy and your React app will be available on Vercel.
 
 ## Notes
 
