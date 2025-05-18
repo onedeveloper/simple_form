@@ -18,8 +18,7 @@ backend/        FastAPI application
   tests/        Test suite skeleton
   scripts/      Utility scripts
   main.py       Application entrypoint
-  pyproject.toml
-
+  
 frontend/       React application powered by Vite
   src/          React source files
     App.tsx
@@ -37,13 +36,13 @@ details are provided via the `MONGO_USER`, `MONGO_PASSWORD`, `MONGO_HOST`,
 
 ## Running the Backend
 
-1. Create a local environment with [uv](https://astral.sh/docs/uv/):
+1. Create a local Python virtual environment and install dependencies:
 
    ```bash
    cd backend
-   uv venv
+   python -m venv .venv
    source .venv/bin/activate
-   uv pip install .
+   pip install -r requirements.txt
    ```
 
    Create a `.env` file based on `.env.example` and provide your MongoDB
@@ -80,8 +79,8 @@ The frontend will be available at `http://localhost:3000`.
 2. Point it at this repository and set the MongoDB connection variables
    (`MONGO_USER`, `MONGO_PASSWORD`, `MONGO_HOST`, `MONGO_DBNAME`,
    `MONGO_APPNAME`) in the environment settings.
-3. Railway will build the FastAPI service using the `pyproject.toml` and run
-   `uvicorn main:app`.
+3. Railway will automatically install dependencies from `requirements.txt`
+   and run `uvicorn main:app`.
 
 ### Vercel (Frontend)
 

@@ -12,9 +12,6 @@ venv/
 ENV/
 .venv/
 
-# uv
-.uv/
-
 # Node
 node_modules/
 dist/
