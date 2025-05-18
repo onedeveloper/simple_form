@@ -31,8 +31,9 @@ frontend/       React application powered by Vite
 
 ## MongoDB Connection
 
-The backend uses **Motor** for asynchronous MongoDB access. The connection
-string is provided via the `MONGO_URI` environment variable.
+The backend uses **Motor** for asynchronous MongoDB access. Connection
+details are provided via the `MONGO_USER`, `MONGO_PASSWORD`, `MONGO_HOST`,
+`MONGO_DBNAME` and `MONGO_APPNAME` environment variables.
 
 ## Running the Backend
 
@@ -45,7 +46,8 @@ string is provided via the `MONGO_URI` environment variable.
    uv pip install .
    ```
 
-   Create a `.env` file based on `.env.example` and provide your `MONGO_URI`.
+   Create a `.env` file based on `.env.example` and provide your MongoDB
+   connection details.
 
 2. Start the FastAPI app:
 
@@ -75,8 +77,9 @@ The frontend will be available at `http://localhost:3000`.
 ### Railway (Backend)
 
 1. Create a new project on [Railway](https://railway.app/).
-2. Point it at this repository and set `MONGO_URI` in the environment
-   variables settings.
+2. Point it at this repository and set the MongoDB connection variables
+   (`MONGO_USER`, `MONGO_PASSWORD`, `MONGO_HOST`, `MONGO_DBNAME`,
+   `MONGO_APPNAME`) in the environment settings.
 3. Railway will build the FastAPI service using the `pyproject.toml` and run
    `uvicorn main:app`.
 
