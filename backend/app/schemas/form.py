@@ -1,14 +1,13 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class Question(BaseModel):
-    text: str
+class QuestionSchema(BaseModel):
+    label: str
     type: str  # e.g., text, select, rating, boolean
     options: Optional[List[str]] = None
 
-class Form(BaseModel):
-    id: Optional[str]
+class FormSchema(BaseModel):
+    id: Optional[str] = None
     name: str
-    version: int
-    questions: List[Question]
+    questions: List[QuestionSchema]
 

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 interface Question {
   id: number
-  text: string
+  label: string
   type: string
   options?: string
 }
@@ -19,13 +19,11 @@ const FormBuilder: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([])
 
   const addQuestion = () => {
-    setQuestions(prev => [...prev, { id: Date.now(), text: '', type: 'text', options: '' }])
+    setQuestions(prev => [...prev, { id: Date.now(), label: '', type: 'text', options: '' }])
   }
 
   const updateQuestion = (id: number, field: keyof Question, value: string) => {
-    setQuestions(prev =>
-      prev.map(q => (q.id === id ? { ...q, [field]: value } : q))
-    )
+    setQuestions(prev => prev.map(q => (q.id === id ? { ...q, [field]: value } : q)))
   }
 
   const removeQuestion = (id: number) => {
@@ -33,11 +31,19 @@ const FormBuilder: React.FC = () => {
   }
 
   const onSubmit = async (data: FormValues) => {
+    if (!data.name.trim()) {
+      alert('Form name is required')
+      return
+    }
+    if (questions.some(q => !q.label.trim())) {
+      alert('All questions must have a label')
+      return
+    }
+
     const payload = {
       name: data.name,
-      version: 1,
       questions: questions.map(q => ({
-        text: q.text,
+        label: q.label,
         type: q.type,
         options: q.options
           ? q.options.split(',').map(o => o.trim()).filter(Boolean)
@@ -46,14 +52,15 @@ const FormBuilder: React.FC = () => {
     }
 
     try {
-      await fetch(import.meta.env.VITE_BACKEND_URL + '/forms', {
+      const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/forms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
+      const result = await res.json()
       reset()
       setQuestions([])
-      alert('Form saved')
+      alert(`Form saved with ID: ${result.id}`)
     } catch (err) {
       console.error(err)
       alert('Error saving form')
@@ -74,9 +81,9 @@ const FormBuilder: React.FC = () => {
         <div key={q.id} style={{ marginBottom: '1rem' }}>
           <input
             type="text"
-            placeholder="Question text"
-            value={q.text}
-            onChange={e => updateQuestion(q.id, 'text', e.target.value)}
+            placeholder="Question label"
+            value={q.label}
+            onChange={e => updateQuestion(q.id, 'label', e.target.value)}
           />
           <select
             value={q.type}
