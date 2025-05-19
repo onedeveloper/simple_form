@@ -86,11 +86,14 @@ The frontend will be available at `http://localhost:3000`.
 
 1. Import the `frontend/` directory as a new Vercel project.
 2. Use the default **Vite** build settings (`npm run build`).
-3. Deploy and your React app will be available on Vercel.
+3. Set the `VITE_BACKEND_URL` environment variable to the base URL of your
+   deployed backend (for local development you can use `http://localhost:8000`).
+4. Deploy and your React app will be available on Vercel.
 
 ## Notes
 
-This project currently contains only placeholder routes and components.
-Additional logic for form creation, rendering and submission should be
-implemented in the respective backend and frontend folders.
+This project originally contained only placeholder routes and components.
+The frontend now includes a very small **Form Builder** implementation that
+allows you to enter a form name and dynamically add questions. The builder
+submits the form definition to the backend via the `/forms` endpoint.
 
